@@ -1,0 +1,23 @@
+.box {
+    width: 4rem;
+    height: 4rem;
+    background-color: #3A3A3C;
+    color: #F8F8F8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+
+
+    &.selected {
+        box-shadow: 0px 0px 2px 2px #f0f0f065;
+    }
+
+    &.correct_word {
+        background-color: #B59F3B;
+    }
+
+    &.correct_word_position {
+        background-color: #538D4E;
+    }
+}

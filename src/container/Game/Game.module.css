@@ -1,0 +1,18 @@
+.container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.restart_btn {
+    font-size: 1.25rem;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+
+    &:hover {
+        cursor: pointer;
+        box-shadow: 0px 0px 4px 4px #f0f0f03d;
+    }
+}
