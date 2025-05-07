@@ -1,8 +1,10 @@
 import { ValidationWordMap } from "@/HOC/GameContext/utils/validator";
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 type GameContextType = {
+  targetWord: string;
   isMatchFound: boolean;
+  isGameOver: boolean;
   isGameStarted: boolean;
   selectedLine: number;
   selectedBox: number;
@@ -16,14 +18,18 @@ type GameContextType = {
   restart: () => void;
 };
 const GameContext = createContext<GameContextType>({
+  targetWord: "",
   isMatchFound: false,
+  isGameOver: false,
   isGameStarted: false,
   selectedLine: 0,
   selectedBox: 0,
   validationWordMap: [],
-  getValidationMapByLine: () => [],
+  getValidationMapByLine: () => [] as ValidationWordMap,
   getCharacter: () => "",
   restart: () => {},
 });
 
 export default GameContext;
+
+export const useGameContext = () => useContext(GameContext);

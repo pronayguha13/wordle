@@ -10,6 +10,7 @@ type GameProviderProps = {
 const GameProvider = ({ children }: GameProviderProps) => {
   const targetWord = useRef<string>("");
   const [isMatchFound, setIsMatchFound] = useState<boolean>(false);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
   const [selectedLine, setSelectedLine] = useState<number>(0);
   const [selectedBox, setSelectedBox] = useState<number>(0);
@@ -96,6 +97,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
   /*------restart functionality------*/
   const resetState = () => {
     setIsMatchFound(false);
+    setIsGameOver(false);
     setIsGameStarted(false);
     setSelectedLine(0);
     setSelectedBox(0);
@@ -136,6 +138,11 @@ const GameProvider = ({ children }: GameProviderProps) => {
         setValidationMap(tempValidationMap);
         if (result.isFound) {
           setIsMatchFound(result.isFound);
+          setIsGameOver(true);
+        } else {
+          if (selectedLine === 6) {
+            setIsGameOver(true);
+          }
         }
       }
     }
@@ -165,7 +172,9 @@ const GameProvider = ({ children }: GameProviderProps) => {
   return (
     <GameContext.Provider
       value={{
+        targetWord: targetWord.current,
         isMatchFound: isMatchFound,
+        isGameOver: isGameOver,
         isGameStarted: isGameStarted,
         selectedLine: selectedLine,
         selectedBox: selectedBox,
