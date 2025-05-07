@@ -1,13 +1,13 @@
-import { Fragment, useContext } from "react";
+import { Fragment } from "react";
 import style from "./Game.module.css";
 
 import Grid from "@/components/Grid/Grid";
 import Score from "@/components/Score/Score";
 
-import GameContext from "@/context/game";
+import { useGameContext } from "@/context/game";
 
 const Game = () => {
-  const { isMatchFound, isGameStarted, restart } = useContext(GameContext);
+  const { isGameOver, isGameStarted, restart } = useGameContext();
 
   return (
     <Fragment>
@@ -17,7 +17,7 @@ const Game = () => {
           {isGameStarted ? "Restart" : "Start"}
         </button>
       </div>
-      {isMatchFound ? <Score onClose={restart} /> : null}
+      {isGameOver ? <Score onClose={restart} /> : null}
     </Fragment>
   );
 };
