@@ -1,7 +1,11 @@
 import { useState, ReactNode, useEffect, useCallback, useRef } from "react";
 
 import GameContext from "@/context/game";
-import validate, { ValidationWordMap } from "@/HOC/GameContext/utils/validator";
+import validate, {
+  CharacterValidationMap,
+  VALIDATION_CODE,
+  ValidationWordMap,
+} from "@/HOC/GameContext/utils/validator";
 
 type GameProviderProps = {
   children: ReactNode;
@@ -22,6 +26,9 @@ const GameProvider = ({ children }: GameProviderProps) => {
   );
   const [validationMap, setValidationMap] = useState<Array<ValidationWordMap>>(
     Array(6).fill(null)
+  );
+  const [characterMap, setCharacterMap] = useState<CharacterValidationMap>(
+    new Map()
   );
 
   // const validator = useGameValidator();
@@ -104,6 +111,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
     setGuessedWords(new Array(6).fill(""));
     setCurrentLineCharacters(new Array(5).fill(""));
     setValidationMap([]);
+    setCharacterMap(new Map());
   };
 
   const restart = () => {
@@ -121,6 +129,28 @@ const GameProvider = ({ children }: GameProviderProps) => {
 
   useEffect(() => {
     // const currentLine = selectedLine;
+    function updateCharacterValidationMap(newValidationMap: ValidationWordMap) {
+      const tempMap = new Map(characterMap);
+      newValidationMap.forEach((character) => {
+        if (tempMap.has(character.word)) {
+          const currentValidationStatus = tempMap.get(character.word)?.status;
+
+          if (currentValidationStatus === VALIDATION_CODE.IN_POSITION) return;
+
+          tempMap.set(character.word, {
+            character: character.word,
+            status: character.status,
+          });
+        } else {
+          tempMap.set(character.word, {
+            character: character.word,
+            status: character.status,
+          });
+        }
+      });
+
+      setCharacterMap(tempMap);
+    }
 
     function handleValidation() {
       if (selectedLine > 0) {
@@ -134,6 +164,8 @@ const GameProvider = ({ children }: GameProviderProps) => {
         const tempValidationMap = Array.from(validationMap);
 
         tempValidationMap[tobeValidatedLine] = result.validationMap;
+
+        updateCharacterValidationMap(result.validationMap);
 
         setValidationMap(tempValidationMap);
         if (result.isFound) {
@@ -179,6 +211,7 @@ const GameProvider = ({ children }: GameProviderProps) => {
         selectedLine: selectedLine,
         selectedBox: selectedBox,
         validationWordMap: validationMap,
+        characterValidationMap: characterMap,
         getValidationMapByLine: getValidationMapByLine,
         getCharacter: getCharacterByBoxNumber,
         restart,

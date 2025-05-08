@@ -15,6 +15,14 @@ export type ValidationWordMap = Array<{
   status: VALIDATION_CODE;
 }>;
 
+export type CharacterValidationMap = Map<
+  string,
+  {
+    character: string;
+    status: VALIDATION_CODE;
+  }
+>;
+
 /**
  * @description  Hook to validate a string with another target string
  * @param {string} param0 word: Word that needs to be validated

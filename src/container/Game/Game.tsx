@@ -5,17 +5,16 @@ import Grid from "@/components/Grid/Grid";
 import Score from "@/components/Score/Score";
 
 import { useGameContext } from "@/context/game";
+import Keyboard from "@/container/Keyboard";
 
 const Game = () => {
-  const { isGameOver, isGameStarted, restart } = useGameContext();
+  const { isGameOver, restart } = useGameContext();
 
   return (
     <Fragment>
       <div className={style.container}>
         <Grid />
-        <button className={style.restart_btn} onClick={restart}>
-          {isGameStarted ? "Restart" : "Start"}
-        </button>
+        <Keyboard />
       </div>
       {isGameOver ? <Score onClose={restart} /> : null}
     </Fragment>
